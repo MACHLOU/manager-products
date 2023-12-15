@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-6">
+            <h1>List of products</h1>
+        </div>
+        <!-- Button Add --> 
+        <div class="col-md-6 text-end">
+            <button class="btn btn-dark" style="width: 30%;" (click)="toggleForm()">Add</button>
+        </div>
+    </div>
+    <div class="row my-4" *ngIf="addForm()">
+        <div class="col-md-6 mx-auto">
+            <div class="form-group">
+                <label for="item">Product</label>
+                <input 
+                [ngModel]="newProduct().title" 
+                (ngModelChange)="newProduct().title = $event"
+                type="text" class="form-control" 
+                id="item">
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input 
+                [ngModel]="newProduct().price" 
+                (ngModelChange)="newProduct().price = $event"
+                type="number" class="form-control" 
+                id="price">
+            </div>
+            <div class="d-grid my-4 ">
+                <button *ngIf="!editForm()" class="btn btn-info" (click)="addNewProduct()" >New Product</button>
+                <button *ngIf="editForm()" class="btn btn-warning" (click)="updateProduct()" >Update Product</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div col-md-6 mx-auto>
+
+            <ng-container *ngIf="this.products().length; then list else alert"></ng-container> 
+            <ng-template #list>
+                <ol class="list-group list-group-numbred" *ngIf="this.products().length">
+                    <li *ngFor="let product of products()"  (click)="editProduct(product)" class="list-group-item justify-content-between d-flex align-item-start">
+                        <div  class="ms-2 me-auto">
+                            <div class="fw-bold"> {{ product.title }} </div>
+                        </div>
+                        <span class="badge bg-dark " > {{ product.price }} </span>
+                                 <svg  style="width: 50px;" (click)="toDelete(product)" xmlns="src\assets\icons\trash-can-solid.svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                     </li>
+                 </ol>
+            </ng-template>
+            
+            <ng-template #alert>
+                <div *ngIf="!this.products().length" class="alert alert-danger">No products yet !</div>        
+            </ng-template>
+        </div>
+    </div>
+</div>
